@@ -14,6 +14,7 @@ Based on the queries and stored procedures provided, the database can:
 - Track pending/fulfilled orders
 
 ## Technical Instructions
+- Requires MS SQL Server
 - Execute the thecakeshop-createDBobjects.sql file to create the database objects
 - Execute the thecakeshop-loadsampledata.sql file to load the sample data
 - Execute the thecakeshop-unittests.sql file to show functionality
