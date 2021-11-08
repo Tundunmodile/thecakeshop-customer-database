@@ -83,7 +83,7 @@ CREATE TABLE OrderItems
 (
     [ItemID] INT NOT NULL IDENTITY PRIMARY KEY,
     [Size] NVARCHAR(255) NOT NULL,
-    [Price]
+    [Price] MONEY
 );
 GO
 
