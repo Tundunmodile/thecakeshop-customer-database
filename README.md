@@ -1,8 +1,5 @@
 # thecakeshop-customer-database
 
-## Introduction
-This repository is in fulfillment of Code Louisville Fall 2021 SQL class.
-
 ## Project Description
 
 **The Cake Shop**
