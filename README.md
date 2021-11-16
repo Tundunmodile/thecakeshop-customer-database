@@ -3,11 +3,13 @@
 ## Project Description
 
 **The Cake Shop**
-This is a sample customer database for a small cake business.
+is a sample customer database for a small cake business.
 It is used to collect, store and retrieve customer and order information.
 Based on the queries and stored procedures provided, the database can:
 - provide a list of pending orders, filled orders and all orders.
 - add orders and customer.
+- update the status of an order
+- remove an existing order.
 
 ## Features
 - Maintain customer and order information
@@ -17,7 +19,6 @@ Based on the queries and stored procedures provided, the database can:
 - Requires MS SQL Server
 - Execute the thecakeshop-createDBobjects.sql file to create the database objects
 - Execute the thecakeshop-loadsampledata.sql file to load the sample data
-- Execute the thecakeshop-unittests.sql file to show functionality
 - The thecakeshop.sql file shows how to run the stored procedures
 
 ## Project Requirements
