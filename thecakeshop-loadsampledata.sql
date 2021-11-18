@@ -1,5 +1,5 @@
 /* thecakeshop-loadsampledata.sql
-Author: Tundun Modile
+Author: Olatundun Modile
 Date Created: 11/08/2021
 Description: sample data for the cake shop
 */
@@ -17,25 +17,51 @@ VALUES ('Amina','Salau', 4562348956, 'amina@tcs.com', '123 salad street', 'bento
 ('Dinah', 'Steele', 4562348956, 'dinah@tcs.com', '123 salad street', 'bentonville', 'NE', 45234);
 GO
 
-INSERT INTO Orders
-VALUES 
-(1, 5, NULL, 'pending', 08/22/2021 00:00:00, 12/06/2021 00:00:00, NULL, 1),
-(2, 5, NULL, 'fulfilled', 08/24/2021 00:00:00, 09/30/2021 00:00:00, 09/30/2021 00:00:00, 1),
-(3, 3, NULL, 'pending', 10/05/2021 00:00:00, 11/27/2021 00:00:00, NULL, 2),
-(4, 1, NULL, 'fulfilled', 10/05/2021 00:00:00, 10/10/2021 00:00:00, 10/10/2021 00:00:00, 1),
-(4, 3, NULL, 'fulfilled', 10/05/2021 00:00:00, 10/31/2021 00:00:00, 10/30/2021 00:00:00, 2),
-(5, 1, NULL, 'pending', 11/01/2021 00:00:000, 11/27/2021 00:00:00, NULL, 2);
-GO
-
 INSERT INTO Staff
 VALUES ('Tundun', 'Modile', 'tundun@tcs.com', 2348646543, '1'),
 ('Bianca', 'Smith', 'bianca@tcs.com', 8542563478, '1');
 GO
 
-INSERT INTO OrderItems
-VALUES ('8"', $200),
-('10"', $280),
-('12"', $350),
-('14"', $420),
-('16"', $500);
+INSERT INTO Cakes
+VALUES ('8 inches', 200),
+('10 inches', 280),
+('12 inches', 350),
+('14 inches', 420),
+('16 inches', 500);
 GO
+
+INSERT INTO Orders
+VALUES 
+(1, 5, 1, 'pending', '20210822 10:05:45 AM', '20211206 06:00:00 PM' , NULL, 1),
+(2, 5, 3, 'fulfilled', '20210824 10:05:45 AM', '20210930 06:00:00 PM', '20210930 06:00:00 PM', 1),
+(3, 3, 1, 'pending', '20211005 10:05:45 AM', '20211127 06:00:00 PM', NULL, 2),
+(4, 1, 5, 'fulfilled', '20211005 10:05:45 AM', '20211010 06:00:00 PM', '20211010 06:00:00 PM', 1),
+(4, 3, 2, 'fulfilled', '20211005 10:05:45 AM', '20211031 06:00:00 PM', '20211031 06:00:00 PM', 2),
+(5, 1, 1, 'pending', '20211101 10:05:45 AM', '20211127 06:00:00 PM', NULL, 2);
+GO
+
+INSERT INTO Details
+VALUES ('White', 'Icing'),
+('Chocolate', 'flavor'),
+('Chocolate', 'filling'),
+('Carrot', 'flavor'),
+('Carrot', 'filling'),
+('Lemon','flavor' ),
+('Fudge', 'filling'),
+('Strawberry','flavor'),
+('Raspberry','icing');
+GO
+
+
+INSERT INTO CakeDetails
+VALUES (2,5),
+(5,5),
+(3,2),
+(2,9),
+(2,3),
+(5,2),
+(3,9),
+(5,9),
+(3,3);
+GO
+

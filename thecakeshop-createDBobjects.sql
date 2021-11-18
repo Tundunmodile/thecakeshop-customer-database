@@ -8,9 +8,10 @@
  *    Orders (OrderID, CustomerID, ItemID, Quantity, OrderStatus, OrderDate, RequiredDate, ShipDate, StaffID)
  *    Staff (StaffID, FirstName, LastName, Email, Phone, Status)
  *    OrderItems (ItemID, Size, Price)
+ *    SpecialtyItems (SpecialtyItemID, Name)
  *
  * Indexes:
- *    IX_IX_City
+ *    IX_City
  *    IX_State
  *
  * Stored Procedures:
@@ -19,7 +20,7 @@
  *    ReadFulfilledOrders
  *    CreateOrder 
  *    DeleteOrder 
- *    UpdateOrder 
+ *    UpdateOrder
  
 */
 
@@ -41,8 +42,16 @@ IF OBJECT_ID('Customers', 'U') IS NOT NULL
 IF OBJECT_ID('Staff', 'U') IS NOT NULL
     DROP TABLE Staff;
 
-IF OBJECT_ID('OrderItems', 'U') IS NOT NULL
-    DROP TABLE OrderItems;
+IF OBJECT_ID('CakeDetails', 'U') IS NOT NULL
+    DROP TABLE CakeDetails;
+
+IF OBJECT_ID('Cakes', 'U') IS NOT NULL
+    DROP TABLE Cakes;
+
+IF OBJECT_ID('Details', 'U') IS NOT NULL
+    DROP TABLE Details;
+
+
 
 
 CREATE TABLE Customers
@@ -74,7 +83,7 @@ CREATE TABLE Staff
 GO
 
 
-CREATE TABLE OrderItems
+CREATE TABLE Cakes
 (
     [ItemID] INT NOT NULL IDENTITY PRIMARY KEY,
     [Size] NVARCHAR(50) NOT NULL,
@@ -95,9 +104,32 @@ CREATE TABLE Orders
     [StaffID] INT NOT NULL,
     FOREIGN KEY(CustomerID) REFERENCES Customers(CustomerID),
     FOREIGN KEY(StaffID) REFERENCES Staff(StaffID),
-    FOREIGN KEY(ItemID) REFERENCES OrderItems(ItemID)
+    FOREIGN KEY(ItemID) REFERENCES Cakes(ItemID)
 );
 GO
+
+CREATE TABLE Details
+(
+    [DetailID] INT NOT NULL IDENTITY PRIMARY KEY,
+    [Name] NVARCHAR(75) NOT NULL,
+	[Description]  NVARCHAR(255) NOT NULL
+);
+GO
+
+CREATE TABLE CakeDetails
+(
+    [CakeDetailID] INT NOT NULL IDENTITY PRIMARY KEY,
+	[ItemID] INT NOT NULL,
+	[DetailID] INT NOT NULL,
+	FOREIGN KEY(ItemID) REFERENCES Cakes(ItemID),
+	FOREIGN KEY(DetailID) REFERENCES Details(DetailID)
+);
+GO
+
+
+
+
+
 
 /******************************************************
     Indexes
