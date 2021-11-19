@@ -1,0 +1,13 @@
+EmployeeID	FirstName	LastName	Email	Phone
+1	Zoe	Ball	zoe.ball@tcs.com	(762) 969-2858
+2	Richard	Reid	richard.reid@tcs.com	(988) 741-8313
+3	Wanda	Metcalfe	wanda.metcalfe@tcs.com	(458) 310-3489
+4	Christian	Grant	christian.grant@tcs.com	(967) 842-9239
+5	Alexandra	Ogden	alexandra.ogden@tcs.com	(628) 705-7789
+6	Luke	Tucker	luke.tucker@tcs.com	(703) 464-6478
+7	Matt	Morgan	matt.morgan@tcs.com	(969) 866-8107
+8	Olivia	Morgan	olivia.morgan@tcs.com	(981) 694-4139
+9	Leah	Sanderson	leah.sanderson@tcs.com	(542) 954-5457
+10	Ian	Marshall	ian.marshall@tcs.com	(895) 241-7886
+11	Ruth	Lambert	ruth.lambert@tcs.com	(470) 202-7136
+12	Sean	Piper	sean.piper@tcs.com	(612) 244-2488
