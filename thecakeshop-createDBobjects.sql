@@ -27,7 +27,6 @@
 */
 
 
-
 /******************************************************
     Tables
 ******************************************************/
@@ -166,7 +165,7 @@ CREATE NONCLUSTERED INDEX IX_City ON [Address] (City DESC)
 GO
 
 
-CREATE NONCLUSTERED INDEX IX_State ON [Address] ([State] DESC)
+CREATE NONCLUSTERED INDEX IX_State ON [Address] ([Zip] DESC)
 GO
 
 
@@ -270,7 +269,7 @@ GO
 
 **/
 
-CREATE PROCEDURE CreateEmployee /*@EmployeeID INT,*/ @FirstName NVARCHAR(50),@LastName NVARCHAR(50),@Email NVARCHAR(50),@Phone NVARCHAR(50)
+CREATE PROCEDURE CreateEmployee @FirstName NVARCHAR(50),@LastName NVARCHAR(50),@Email NVARCHAR(50),@Phone NVARCHAR(50)
 
 AS 
 
@@ -279,8 +278,8 @@ BEGIN
     SET NOCOUNT ON;
     BEGIN
 		INSERT INTO Employee
-		(/*EmployeeID,*/ FirstName,LastName,Email,Phone)
-		VALUES(/*@EmployeeID,*/ @FirstName, @LastName, @Email, @Phone)
+		(FirstName,LastName,Email,Phone)
+		VALUES(@FirstName, @LastName, @Email, @Phone)
 		;
 	END
 END
@@ -296,10 +295,10 @@ GO
     Error Checks:
         None
 **/
-CREATE PROCEDURE DeleteAddress @CustomerID INT AS
+CREATE PROCEDURE DeleteAddress @Zip INT AS
 BEGIN
     SET NOCOUNT ON;
-	DELETE FROM [Address] WHERE CustomerID = @CustomerID
+	DELETE FROM [Address] WHERE Zip = @Zip
 END
 GO
 
