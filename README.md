@@ -20,8 +20,8 @@ Based on the queries and stored procedures provided, the database can:
 - Requires MS SQL Server
 - Execute the thecakeshop-createDBobjects.sql file to create the database objects
 - Execute the thecakeshop-loadsampledata.sql file to load the sample data
-- Upload the flat file for data in tables
-- The thecakeshop.sql file shows how to execute the stored procedures
+- Optional data tables attached
+- The thecakeshop.sql file executes the stored procedures
 
 ## Project Requirements
 
