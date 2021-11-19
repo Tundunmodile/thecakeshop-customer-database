@@ -15,7 +15,7 @@
  *
  * Indexes:
  *    IX_City
- *    IX_State
+ *    IX_Zip
  *
  * Stored Procedures:
  *    ReadOrders 
