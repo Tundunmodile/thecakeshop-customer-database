@@ -32,32 +32,36 @@
     Tables
 ******************************************************/
 CREATE DATABASE thecakeshop;
+GO
+
+USE thecakeshop;
+GO
 
 --DROP DATABASE thecakeshop;
 
---IF OBJECT_ID('Size', 'U') IS NOT NULL
---    DROP TABLE Size;
+IF OBJECT_ID('Size', 'U') IS NOT NULL
+    DROP TABLE Size;
 
---IF OBJECT_ID('Employees', 'U') IS NOT NULL
---    DROP TABLE Employees;
+IF OBJECT_ID('Employees', 'U') IS NOT NULL
+    DROP TABLE Employees;
 
---IF OBJECT_ID('Customer', 'U') IS NOT NULL
---    DROP TABLE Customer;
+IF OBJECT_ID('Customer', 'U') IS NOT NULL
+    DROP TABLE Customer;
 
---IF OBJECT_ID('Address', 'U') IS NOT NULL
---    DROP TABLE [Address];
+IF OBJECT_ID('Address', 'U') IS NOT NULL
+    DROP TABLE [Address];
 
---IF OBJECT_ID('ProductDetails', 'U') IS NOT NULL
---    DROP TABLE ProductDetails;
+IF OBJECT_ID('ProductDetails', 'U') IS NOT NULL
+    DROP TABLE ProductDetails;
 
---IF OBJECT_ID('Product', 'U') IS NOT NULL
---    DROP TABLE Product;
+IF OBJECT_ID('Product', 'U') IS NOT NULL
+    DROP TABLE Product;
 
---IF OBJECT_ID('Orders', 'U') IS NOT NULL
---    DROP TABLE Orders;
+IF OBJECT_ID('Orders', 'U') IS NOT NULL
+    DROP TABLE Orders;
 
---IF OBJECT_ID('OrderProducts', 'U') IS NOT NULL
---    DROP TABLE OrderProducts;
+IF OBJECT_ID('OrderProducts', 'U') IS NOT NULL
+    DROP TABLE OrderProducts;
 
 
 
@@ -266,7 +270,7 @@ GO
 
 **/
 
-CREATE PROCEDURE CreateEmployee @EmployeeID INT, @FirstName NVARCHAR(50),@LastName NVARCHAR(50),@Email NVARCHAR(50),@Phone NVARCHAR(50)
+CREATE PROCEDURE CreateEmployee /*@EmployeeID INT,*/ @FirstName NVARCHAR(50),@LastName NVARCHAR(50),@Email NVARCHAR(50),@Phone NVARCHAR(50)
 
 AS 
 
@@ -275,8 +279,8 @@ BEGIN
     SET NOCOUNT ON;
     BEGIN
 		INSERT INTO Employee
-		(EmployeeID, FirstName,LastName,Email,Phone)
-		VALUES(@EmployeeID, @FirstName, @LastName, @Email, @Phone)
+		(/*EmployeeID,*/ FirstName,LastName,Email,Phone)
+		VALUES(/*@EmployeeID,*/ @FirstName, @LastName, @Email, @Phone)
 		;
 	END
 END
@@ -306,14 +310,16 @@ GO
     Parameters:
         @NewStatus (required)
     Returns:
-        None
+        Count of Pending orderstatus before and after update
     Error Checks:
         None
 **/
 CREATE PROCEDURE UpdateOrder @NewStatus NVARCHAR(255) AS
 BEGIN
     SET NOCOUNT ON;
+	SELECT COUNT(OrderStatus) AS PendingOrders FROM Orders WHERE OrderStatus = 'Pending'
     UPDATE Orders SET OrderStatus = @NewStatus WHERE RequiredDate > GETDATE()
+	SELECT COUNT(OrderStatus) AS PendingOrders FROM Orders WHERE OrderStatus = 'Pending'
 END
 GO
 
