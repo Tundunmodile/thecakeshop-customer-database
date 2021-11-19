@@ -4,11 +4,14 @@
  * Description: DDL thecakeshop
  *
  * Tables:
- *    Customers (CustomerID, FirstName, LastName, Phone, Email, City, State, Zip)
- *    Orders (OrderID, CustomerID, ItemID, Quantity, OrderStatus, OrderDate, RequiredDate, ShipDate, StaffID)
- *    Staff (StaffID, FirstName, LastName, Email, Phone, Status)
- *    OrderItems (ItemID, Size, Price)
- *    SpecialtyItems (SpecialtyItemID, Name)
+ *    Customers (CustomerID, FirstName, LastName, Email, Phone)
+ *	  Address(AddressID, Address, City, State, Zip, CustomerID)
+ *    Orders (OrderID, CustomerID, OrderDate, RequiredDate, OrderStatus, EmployeeID)
+ *    Employee (EmployeeID, FirstName, LastName, Email, Phone)
+ *    Product (ProductID, ProductName, ProductDescription, Price, SizeID, ProductDetailID)
+ *    ProductDetails (ProductDetailID, ProductDetailName)
+ *    OrderProduct (OrderId, ProductID, Quantity)
+ *	  Size (SizeID, Sizes)
  *
  * Indexes:
  *    IX_City
@@ -16,10 +19,9 @@
  *
  * Stored Procedures:
  *    ReadOrders 
- *    ReadPendingOrders
- *    ReadFulfilledOrders
- *    CreateOrder 
- *    DeleteOrder 
+ *    ReadOrderStatus
+ *    CreateEmployee 
+ *    DeleteCustomer
  *    UpdateOrder
  
 */
@@ -29,102 +31,118 @@
 /******************************************************
     Tables
 ******************************************************/
-USE cakeshop
+USE thecakeshop
+
+--IF OBJECT_ID('Customer', 'U') IS NOT NULL
+--    DROP TABLE Customer;
+
+--IF OBJECT_ID('Address', 'U') IS NOT NULL
+--    DROP TABLE [Address];
+
+--IF OBJECT_ID('ProductDetails', 'U') IS NOT NULL
+--    DROP TABLE ProductDetails;
+
+--IF OBJECT_ID('Product', 'U') IS NOT NULL
+--    DROP TABLE Product;
+
+--IF OBJECT_ID('Employees', 'U') IS NOT NULL
+--    DROP TABLE Employees;
+
+--IF OBJECT_ID('Orders', 'U') IS NOT NULL
+--    DROP TABLE Orders;
+
+--IF OBJECT_ID('OrderProducts', 'U') IS NOT NULL
+--    DROP TABLE OrderProducts;
+
+--IF OBJECT_ID('Size', 'U') IS NOT NULL
+--    DROP TABLE Size;
 
 
-
-IF OBJECT_ID('Orders', 'U') IS NOT NULL
-    DROP TABLE Orders;
-
-IF OBJECT_ID('Customers', 'U') IS NOT NULL
-    DROP TABLE Customers;
-
-IF OBJECT_ID('Staff', 'U') IS NOT NULL
-    DROP TABLE Staff;
-
-IF OBJECT_ID('CakeDetails', 'U') IS NOT NULL
-    DROP TABLE CakeDetails;
-
-IF OBJECT_ID('Cakes', 'U') IS NOT NULL
-    DROP TABLE Cakes;
-
-IF OBJECT_ID('Details', 'U') IS NOT NULL
-    DROP TABLE Details;
+CREATE TABLE [dbo].[Size](
+    [SizeID] INT NOT NULL IDENTITY PRIMARY KEY, 
+	[Sizes] NVARCHAR(255) NOT NULL   
+);
+GO
 
 
-
-
-CREATE TABLE Customers
+CREATE TABLE Customer
 (
     [CustomerID] INT NOT NULL IDENTITY PRIMARY KEY, 
-    [FirstName] NVARCHAR(255) NOT NULL,
-    [LastName] NVARCHAR(255) NOT NULL,
-    [Phone] CHAR (10) NOT NULL,
-    [Email] NVARCHAR(255) NOT NULL,
-	[Address 1] NVARCHAR(255) NOT NULL,
-    [City] NVARCHAR(255) NOT NULL,
-    [State] NVARCHAR(2) NOT NULL,
-    [Zip] NVARCHAR(5) NOT NULL
+    [FirstName] [nvarchar](50) NOT NULL,
+	[LastName] [nvarchar](50) NOT NULL,
+	[Email] [nvarchar](50) NOT NULL,
+	[Phone] [nvarchar](50) NOT NULL,
+);
+GO
+
+CREATE TABLE [Address](
+	[AddressID] [int] NOT NULL IDENTITY PRIMARY KEY,
+	[Address] [nvarchar](50) NOT NULL,
+	[City] [nvarchar](50) NOT NULL,
+	[State] [nvarchar](50) NULL,
+	[Zip] [int] NOT NULL,
+	[CustomerID] [int] NOT NULL,
+	FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
 );
 GO
 
 
 
-
-CREATE TABLE Staff
+CREATE TABLE Employee
 (
-    [StaffID] INT NOT NULL IDENTITY PRIMARY KEY, 
-    [FirstName] NVARCHAR(255),
-    [LastName] NVARCHAR(255),
-    [Email] NVARCHAR(255),
-    [Phone] CHAR(10),
-    [Status] BIT
+    [EmployeeID] INT NOT NULL IDENTITY PRIMARY KEY, 
+    [FirstName] [nvarchar](50) NOT NULL,
+	[LastName] [nvarchar](50) NOT NULL,
+	[Email] [nvarchar](50) NOT NULL,
+	[Phone] [nvarchar](50) NOT NULL
 );
 GO
 
 
-CREATE TABLE Cakes
-(
-    [ItemID] INT NOT NULL IDENTITY PRIMARY KEY,
-    [Size] NVARCHAR(50) NOT NULL,
-    [Price] MONEY
+CREATE TABLE [dbo].[ProductDetails](
+    [ProductDetailID] INT NOT NULL IDENTITY PRIMARY KEY, 
+	[ProductDetailName] NVARCHAR(255) NULL,   
+
 );
 GO
 
-CREATE TABLE Orders
+CREATE TABLE [dbo].[Product]
 (
+    [ProductID] INT NOT NULL IDENTITY PRIMARY KEY,
+	[ProductName] NVARCHAR(255) NOT NULL,
+	[ProductDescription] NVARCHAR(255) NOT NULL,
+	[Price] MONEY NOT NULL,
+	[SizeID] INT NOT NULL,
+	[ProductDetailID] INT NOT NULL,
+	FOREIGN KEY(ProductDetailID) REFERENCES ProductDetails(ProductDetailID),
+	FOREIGN KEY(SizeID) REFERENCES Size(SizeID)
+);
+GO
+
+CREATE TABLE [dbo].[Orders](
     [OrderID] INT NOT NULL IDENTITY PRIMARY KEY, 
     [CustomerID] INT NOT NULL,
-    [ItemID] INT NOT NULL,
-    [Quantity] INT NOT NULL,
-    [OrderStatus] NVARCHAR(255),
-    [OrderDate] SMALLDATETIME,
-    [RequiredDate] SMALLDATETIME,
-    [ShipDate] SMALLDATETIME,
-    [StaffID] INT NOT NULL,
-    FOREIGN KEY(CustomerID) REFERENCES Customers(CustomerID),
-    FOREIGN KEY(StaffID) REFERENCES Staff(StaffID),
-    FOREIGN KEY(ItemID) REFERENCES Cakes(ItemID)
+	[OrderDate] [smalldatetime] NULL,
+	[RequiredDate] [smalldatetime] NULL,
+	[OrderStatus] [nvarchar](255) NULL,
+	[EmployeeID] INT NOT NULL,    
+    FOREIGN KEY(CustomerID) REFERENCES Customer(CustomerID),
+    FOREIGN KEY(EmployeeID) REFERENCES Employee(EmployeeID)
 );
 GO
 
-CREATE TABLE Details
-(
-    [DetailID] INT NOT NULL IDENTITY PRIMARY KEY,
-    [Name] NVARCHAR(75) NOT NULL,
-	[Description]  NVARCHAR(255) NOT NULL
+CREATE TABLE [dbo].[OrderProducts](
+    [OrderID] INT NOT NULL,
+	[ProductID] INT NOT NULL,
+	[Quantity] INT NOT NULL,
+	PRIMARY KEY (OrderID, ProductID),
+    FOREIGN KEY(OrderID) REFERENCES Orders(OrderID),	
+	FOREIGN KEY(ProductID) REFERENCES Product(ProductID)
 );
 GO
 
-CREATE TABLE CakeDetails
-(
-    [CakeDetailID] INT NOT NULL IDENTITY PRIMARY KEY,
-	[ItemID] INT NOT NULL,
-	[DetailID] INT NOT NULL,
-	FOREIGN KEY(ItemID) REFERENCES Cakes(ItemID),
-	FOREIGN KEY(DetailID) REFERENCES Details(DetailID)
-);
-GO
+
+
 
 
 
@@ -136,11 +154,11 @@ GO
 ******************************************************/
 
 
-CREATE NONCLUSTERED INDEX IX_City ON Customers (City DESC)
+CREATE NONCLUSTERED INDEX IX_City ON [Address] (City DESC)
 GO
 
 
-CREATE NONCLUSTERED INDEX IX_State ON Customers ([State] DESC)
+CREATE NONCLUSTERED INDEX IX_State ON [Address] ([State] DESC)
 GO
 
 
@@ -154,20 +172,16 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_NAME = N'Rea
 DROP PROCEDURE ReadOrders
 GO
 
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_NAME = N'ReadPendingOrders' AND ROUTINE_TYPE = N'PROCEDURE')
-DROP PROCEDURE ReadPendingOrders
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_NAME = N'ReadOrderStatus' AND ROUTINE_TYPE = N'PROCEDURE')
+DROP PROCEDURE ReadOrderStatus
 GO
 
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_NAME = N'ReadFulfilledOrders' AND ROUTINE_TYPE = N'PROCEDURE')
-DROP PROCEDURE ReadFulfilledOrders
+IF EXISTS ( SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_NAME = N'CreateEmployee' AND ROUTINE_TYPE = N'PROCEDURE')
+DROP PROCEDURE CreateEmployee
 GO
 
-IF EXISTS ( SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_NAME = N'CreateOrder' AND ROUTINE_TYPE = N'PROCEDURE')
-DROP PROCEDURE CreateOrder
-GO
-
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_NAME = N'DeleteOrder' AND ROUTINE_TYPE = N'PROCEDURE')
-DROP PROCEDURE DeleteOrder
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_NAME = N'DeleteCustomer' AND ROUTINE_TYPE = N'PROCEDURE')
+DROP PROCEDURE DeleteCustomer
 GO
 
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_NAME = N'UpdateOrder' AND ROUTINE_TYPE = N'PROCEDURE')
@@ -178,16 +192,124 @@ GO
 
 /** 
     Stored Procedure: ReadOrders 
-    Usage: Returns a result set of orders in the database optionally filtered by CustomerID, StaffID or RequiredDate
+    Usage: Returns a result set of orders in the database optionally filtered by RequiredDate
     Parameters:
-        @CustomerID (optional) - filters results to only include all order from a specific customer
-        @StaffID (optional) - filters rsults to only include all orders created by a specific Staff
 		@RequiredDate(optional) - filters results to only include orders due on a certain date
 
 **/
-CREATE PROCEDURE ReadOrders @CustomerID INT = NULL, @staffID INT = NULL, @RequiredDate SMALLDATETIME = NULL AS
+CREATE PROCEDURE ReadOrders @RequiredDate SMALLDATETIME = NULL AS
 BEGIN
     SET NOCOUNT ON;
-    IF @CustomerID IS NULL
     BEGIN
-        
+		SELECT
+			ORD.OrderDate,
+			ORD.RequiredDate,
+			ORD.OrderStatus,
+			ORDPROD.Quantity,
+			PROD.ProductName,
+			PROD.ProductDescription,
+			PRODDET.ProductDetailName,
+			SZ.Sizes
+			FROM Orders ORD
+			JOIN OrderProducts ORDPROD ON ORDPROD.OrderID = ORD.OrderID
+			JOIN Product PROD ON PROD.ProductID = ORDPROD.ProductID
+			JOIN ProductDetails PRODDET ON PRODDET.ProductDetailID = PROD.ProductDetailID
+			JOIN Size SZ ON SZ.SizeID = PROD.SizeID
+			WHERE ORD.RequiredDate = ISNULL(@RequiredDate, ORD.RequiredDate)
+			; 
+	END
+END
+GO
+
+/** 
+    Stored Procedure: ReadOrderStatus 
+    Usage: Returns a result set of orders in the database filtered either by Pending or Fulfilled Order Status
+    Parameters:
+		@OrderStatus - filters results to only include orders based on their status
+
+**/
+
+CREATE PROCEDURE ReadOrderStatus @OrderStatus NVARCHAR(255) AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN
+		SELECT
+			ORD.OrderDate,
+			ORD.RequiredDate,
+			ORD.OrderStatus,
+			ORDPROD.Quantity,
+			PROD.ProductName,
+			PROD.ProductDescription,
+			PRODDET.ProductDetailName,
+			SZ.Sizes
+			FROM Orders ORD
+			JOIN OrderProducts ORDPROD ON ORDPROD.OrderID = ORD.OrderID
+			JOIN Product PROD ON PROD.ProductID = ORDPROD.ProductID
+			JOIN ProductDetails PRODDET ON PRODDET.ProductDetailID = PROD.ProductDetailID
+			JOIN Size SZ ON SZ.SizeID = PROD.SizeID
+			WHERE ORD.OrderStatus = @OrderStatus
+			; 
+			
+	END
+END
+GO
+
+/** 
+    Stored Procedure: CreateEmployee
+    Usage: Creates a new employee entry in the database
+    Parameters:
+		@FirstName,@LastName,@Email,@Phone
+
+**/
+
+CREATE PROCEDURE CreateEmployee @FirstName NVARCHAR(50),@LastName NVARCHAR(50),@Email NVARCHAR(50),@Phone NVARCHAR(50)
+
+AS 
+
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN
+		INSERT INTO Employee
+		VALUES(@FirstName, @LastName, @Email, @Phone)
+		;
+	END
+END
+GO
+
+/** 
+    Stored Procedure: DeleteCustomer 
+    Usage: Deletes a customer from the database. 
+    Parameters:
+        @CustomerID (required) 
+    Returns:
+        None
+    Error Checks:
+        None
+**/
+CREATE PROCEDURE DeleteCustomer @CustomerID INT AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM Customer WHERE CustomerID = @CustomerID
+    DELETE FROM Orders WHERE CustomerID = @CustomerID
+END
+GO
+
+
+/** 
+    Stored Procedure: UpdateOrder 
+    Usage: Updates the status of an order from pending to fulfilled.
+    Parameters:
+        @NewStatus (required)
+    Returns:
+        None
+    Error Checks:
+        None
+**/
+CREATE PROCEDURE UpdateOrder @NewStatus NVARCHAR(255) AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Orders SET OrderStatus = @NewStatus WHERE RequiredDate > GETDATE()
+END
+GO
+
+
