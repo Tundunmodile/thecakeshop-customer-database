@@ -13,15 +13,16 @@ GO
 
 
 /** Add an employee to the database **/
-EXECUTE CreateEmployee @FirstName = "Tundun", @LastName = "Modile", @Email = "tunmod@tcs.com", @Phone = "(567)345-123"
+DECLARE @EmployeeID INT;
+EXECUTE CreateEmployee @EmployeeID = 14, @FirstName = "Tundun", @LastName = "Modile", @Email = "tunmod@tcs.com", @Phone = "(567)345-123";
 GO
 
-/** Remove a customer and an order from the database **/
-EXECUTE DeleteCustomer @CustomerID = 5
+/** Remove an  address for a customer from the database **/
+EXECUTE DeleteAddress @CustomerID = 5
 GO
 
 /** Update the status of an order from Pending to fulfilled based on dates **/
-EXECUTE UpdateOrder @NewStatus = "fulfilled"
+EXECUTE UpdateOrder @NewStatus = "Fulfilled"
 GO
 
 

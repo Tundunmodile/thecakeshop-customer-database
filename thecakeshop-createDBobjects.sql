@@ -21,7 +21,7 @@
  *    ReadOrders 
  *    ReadOrderStatus
  *    CreateEmployee 
- *    DeleteCustomer
+ *    DeleteAddress
  *    UpdateOrder
  
 */
@@ -31,7 +31,15 @@
 /******************************************************
     Tables
 ******************************************************/
-USE thecakeshop
+CREATE DATABASE thecakeshop;
+
+--DROP DATABASE thecakeshop;
+
+--IF OBJECT_ID('Size', 'U') IS NOT NULL
+--    DROP TABLE Size;
+
+--IF OBJECT_ID('Employees', 'U') IS NOT NULL
+--    DROP TABLE Employees;
 
 --IF OBJECT_ID('Customer', 'U') IS NOT NULL
 --    DROP TABLE Customer;
@@ -45,17 +53,13 @@ USE thecakeshop
 --IF OBJECT_ID('Product', 'U') IS NOT NULL
 --    DROP TABLE Product;
 
---IF OBJECT_ID('Employees', 'U') IS NOT NULL
---    DROP TABLE Employees;
-
 --IF OBJECT_ID('Orders', 'U') IS NOT NULL
 --    DROP TABLE Orders;
 
 --IF OBJECT_ID('OrderProducts', 'U') IS NOT NULL
 --    DROP TABLE OrderProducts;
 
---IF OBJECT_ID('Size', 'U') IS NOT NULL
---    DROP TABLE Size;
+
 
 
 CREATE TABLE [dbo].[Size](
@@ -180,8 +184,8 @@ IF EXISTS ( SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_NAME = N'Cr
 DROP PROCEDURE CreateEmployee
 GO
 
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_NAME = N'DeleteCustomer' AND ROUTINE_TYPE = N'PROCEDURE')
-DROP PROCEDURE DeleteCustomer
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_NAME = N'DeleteAddress' AND ROUTINE_TYPE = N'PROCEDURE')
+DROP PROCEDURE DeleteAddress
 GO
 
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_NAME = N'UpdateOrder' AND ROUTINE_TYPE = N'PROCEDURE')
@@ -262,23 +266,25 @@ GO
 
 **/
 
-CREATE PROCEDURE CreateEmployee @FirstName NVARCHAR(50),@LastName NVARCHAR(50),@Email NVARCHAR(50),@Phone NVARCHAR(50)
+CREATE PROCEDURE CreateEmployee @EmployeeID INT, @FirstName NVARCHAR(50),@LastName NVARCHAR(50),@Email NVARCHAR(50),@Phone NVARCHAR(50)
 
 AS 
 
 BEGIN
+	
     SET NOCOUNT ON;
     BEGIN
 		INSERT INTO Employee
-		VALUES(@FirstName, @LastName, @Email, @Phone)
+		(EmployeeID, FirstName,LastName,Email,Phone)
+		VALUES(@EmployeeID, @FirstName, @LastName, @Email, @Phone)
 		;
 	END
 END
 GO
 
 /** 
-    Stored Procedure: DeleteCustomer 
-    Usage: Deletes a customer from the database. 
+    Stored Procedure: DeleteAddress
+    Usage: Deletes an address for a customer from the database. 
     Parameters:
         @CustomerID (required) 
     Returns:
@@ -286,11 +292,10 @@ GO
     Error Checks:
         None
 **/
-CREATE PROCEDURE DeleteCustomer @CustomerID INT AS
+CREATE PROCEDURE DeleteAddress @CustomerID INT AS
 BEGIN
     SET NOCOUNT ON;
-    DELETE FROM Customer WHERE CustomerID = @CustomerID
-    DELETE FROM Orders WHERE CustomerID = @CustomerID
+	DELETE FROM [Address] WHERE CustomerID = @CustomerID
 END
 GO
 

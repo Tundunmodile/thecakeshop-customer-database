@@ -5,59 +5,56 @@ Description: sample data for the cake shop
 */
 
 
-USE cakeshop
-
-INSERT INTO Customers
-VALUES ('Amina','Salau', 4562348956, 'amina@tcs.com', '123 salad street', 'bentonville', 'NE', 45234),
-('Busayo', 'Aderibigbe', 4562348956, 'busayo@tcs.com', '123 salad street', 'bentonville', 'NE', 45234),
-('Bose', 'Sunday', 4562348956, 'bose@tcs.com', '123 salad street', 'bentonville', 'NE', 45234),
-('Nnamdi', 'Waziri', 4562348956, 'nnamdi@tcs.com', '123 salad street', 'bentonville', 'NE', 45234),
-('Asokoro', 'Ijanikin', 4562348956, 'asokoro@tcs.com', '123 salad street', 'bentonville', 'NE',  45234),
-('Tolu', 'Ogunbiyi', 4562348956, 'tolu@tcs.com', '123 salad street', 'bentonville', 'NE', 45234),
-('Dinah', 'Steele', 4562348956, 'dinah@tcs.com', '123 salad street', 'bentonville', 'NE', 45234);
+USE [thecakeshop]
 GO
 
-INSERT INTO Staff
-VALUES ('Tundun', 'Modile', 'tundun@tcs.com', 2348646543, '1'),
-('Bianca', 'Smith', 'bianca@tcs.com', 8542563478, '1');
+INSERT INTO [dbo].[ProductDetails]       
+     VALUES
+           ('None'),
+		   ('Vanilla' ),
+		   ('Strawberry'),
+		   ('Chocolate'),
+		   ('Pistachio'),
+		   ('Blueberry'),
+		   ('Banana'),
+		   ('Coffee'),
+		   ('Glazed'),
+		   ('Frosting'),
+		   ('Coconut'),
+		   ('Pineapple'),
+		   ('Baileys'),
+		   ('Caramel')
+
 GO
 
-INSERT INTO Cakes
-VALUES ('8 inches', 200),
-('10 inches', 280),
-('12 inches', 350),
-('14 inches', 420),
-('16 inches', 500);
+INSERT INTO [dbo].[Size]       
+     VALUES
+		   ('8 inches' ),
+		   ('10 inches'),
+		   ('14 inches'),
+		   ('16 inches'),
+		   ('Half a dozen'),
+		   ('1 dozen'),
+		   ('Custom'),
+		   ('None')
 GO
 
-INSERT INTO Orders
-VALUES 
-(1, 5, 1, 'pending', '20210822 10:05:45 AM', '20211206 06:00:00 PM' , NULL, 1),
-(2, 5, 3, 'fulfilled', '20210824 10:05:45 AM', '20210930 06:00:00 PM', '20210930 06:00:00 PM', 1),
-(3, 3, 1, 'pending', '20211005 10:05:45 AM', '20211127 06:00:00 PM', NULL, 2),
-(4, 1, 5, 'fulfilled', '20211005 10:05:45 AM', '20211010 06:00:00 PM', '20211010 06:00:00 PM', 1),
-(4, 3, 2, 'fulfilled', '20211005 10:05:45 AM', '20211031 06:00:00 PM', '20211031 06:00:00 PM', 2),
-(5, 1, 1, 'pending', '20211101 10:05:45 AM', '20211127 06:00:00 PM', NULL, 2);
+INSERT INTO [dbo].[Product]
+     VALUES
+           ('Half sheet cake','half of a regular sized pan', 40, 8, 2),
+		   ('Whole sheet cake','a full sized pan of cake', 80, 8,3),
+		   ('Round cake', 'plain', 35, 1,2),
+		   ('Custom cake', 'paw patrol cake', 250, 5,5),
+		   ('Icing', 'none', 20, 8,8),
+		   ('Filling', 'none', 20, 8,7),
+		   ('Doughnut', 'none', 5, 8,10),
+		   ('Macaroons', 'none', 10, 8,1),
+		   ('Custom cupcakes', 'frozen themed', 4.50, 7,7),
+		   ('Cupcakes', 'none', 2, 6, 6),
+		   ('Custom cookies', 'safari themed cookies for 5 year old birthday', 80, 6, 1),
+		   ('Cookie cake', 'July 4th themed cookie cake', 95, 2, 1),
+		   ('Cookies','plain',60, 6,1)
+
 GO
 
-INSERT INTO Details
-VALUES ('White', 'Icing'),
-('Chocolate', 'flavor'),
-('Chocolate', 'filling'),
-('Carrot', 'flavor'),
-('Carrot', 'filling'),
-('Lemon','flavor' ),
-('Fudge', 'filling'),
-('Strawberry','flavor'),
-('Raspberry','icing');
-GO
-
-
-INSERT INTO CakeDetails
-VALUES (2,5),
-(5,5),
-(3,2),
-(2,9),
-(2,3);
-GO
 
